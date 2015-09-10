@@ -26,6 +26,12 @@
 			"email": "gabriel.deschildre@egdweb.fr"
 		}
 	],
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/nWidart/modules"
+        }
+    ],
 	"autoload": {
 		"psr-4": {
 			"Modules\\Feeds\\": ""
