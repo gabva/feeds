@@ -19,7 +19,7 @@ interface FeedRepository extends BaseRepository
 
     public function refreshAll();
 
-    public function all_entries_merged();
+    public function all_entries_merged($start_at,$max_entries);
 
     public function getStatuses();
 }

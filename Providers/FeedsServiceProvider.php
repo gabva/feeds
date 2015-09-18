@@ -37,6 +37,8 @@ class FeedsServiceProvider extends ServiceProvider
     public function register()
     {
         $this->registerBindings();
+
+        $this->app->make('view')->composer('home', 'Modules\Feeds\Composers\Frontend\HomeViewComposer');
     }
 
     /**

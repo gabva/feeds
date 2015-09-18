@@ -91,7 +91,7 @@ class EloquentFeedRepository extends EloquentBaseRepository implements FeedRepos
             );
             FacebookSession::setDefaultApplication($application['appId'], $application['secret']);
 
-            $session = new FacebookSession('274330862762578|yq4pds1GRsgj8fO9GAsSa7uaXqY');
+            $session = new FacebookSession($application['appId'].'|'.$application['secret']);
 
 
             try {
@@ -131,10 +131,10 @@ class EloquentFeedRepository extends EloquentBaseRepository implements FeedRepos
                 $ids = explode('_', $entry->id);
 
 
-                if ($entry->from->id == $ids[0] && (isset($entry->message))) { //si posté par la page
+                if  (isset($entry->message))  { //si il y a un message
 
 
-                    $title = Str::words($entry->message, 10, '...'); //limit mots
+                    $title = Str::words($entry->message, 20, '...'); //limit mots
                     $pubDate = date("D, d M Y H:i:s T", strtotime($entry->created_time));
 
 
@@ -210,9 +210,9 @@ class EloquentFeedRepository extends EloquentBaseRepository implements FeedRepos
 
     }
 
-    public function all_entries_merged()
+    public function all_entries_merged($start_at=0,$max_entries=100)
     {
-        $max_entries = 30;
+
         // Get all feed entries
         $entries = array();
 
@@ -264,12 +264,12 @@ class EloquentFeedRepository extends EloquentBaseRepository implements FeedRepos
         foreach ($entries as $key => $entry) {
 
             //limit
-            if ($key >= $max_entries) {
+            if ($key >= $max_entries || $key<$start_at) {
 
                 unset($entries[$key]);
 
             } else {
-                $entries[$key] = (array)$entry;
+                $entries[$key] = (array) $entry;
 
                 foreach ($entry as $k => $v) {
                     $entries[$key][$k] = (string)$v;
