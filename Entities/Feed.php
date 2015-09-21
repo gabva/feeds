@@ -10,7 +10,7 @@ class Feed extends Model
 
 
     protected $table = 'feeds';
-    protected $fillable = ['name','url','status','comment'];
+    protected $fillable = ['id','name','url','status','comment'];
     protected $presenter = 'Modules\Feeds\Presenters\FeedPresenter';
     protected $appends = ['is_facebook'];
 

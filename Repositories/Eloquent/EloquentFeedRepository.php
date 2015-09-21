@@ -85,21 +85,23 @@ class EloquentFeedRepository extends EloquentBaseRepository implements FeedRepos
 
             $page = $url['path'];
 
+
             $application = array(
-                'appId' => getenv('FACEBOOK_APP_ID'),
-                'secret' => getenv('FACEBOOK_APP_SECRET')
+                'app_id' => getenv('FACEBOOK_APP_ID'),
+                'app_secret' => getenv('FACEBOOK_APP_SECRET')
             );
-            FacebookSession::setDefaultApplication($application['appId'], $application['secret']);
-
-            $session = new FacebookSession($application['appId'].'|'.$application['secret']);
 
 
+            FacebookSession::setDefaultApplication($application['app_id'], $application['app_secret']);
+
+            $session = new FacebookSession($application['app_id'].'|'.$application['app_secret']);
+  
             try {
 
                 $request = new FacebookRequest(
                     $session,
                     'GET',
-                    '/' . $page . '/feed/'
+                    '/' . $page .'/feed'
                 );
 
                 $response = $request->execute();
