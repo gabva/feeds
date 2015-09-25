@@ -213,7 +213,7 @@ class EloquentFeedRepository extends EloquentBaseRepository implements FeedRepos
     }
 
     public function all_entries_merged($start_at=0,$max_entries=100)
-    { 
+    {
 
         // Get all feed entries
         $entries = array();
