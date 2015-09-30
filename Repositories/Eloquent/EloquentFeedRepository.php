@@ -1,7 +1,6 @@
 <?php namespace Modules\Feeds\Repositories\Eloquent;
 
 use Facebook\FacebookRequestException;
-use League\Flysystem\Exception;
 use Modules\Feeds\Repositories\FeedRepository;
 use Modules\Core\Repositories\Eloquent\EloquentBaseRepository;
 use Facebook\FacebookSession;
@@ -175,11 +174,19 @@ class EloquentFeedRepository extends EloquentBaseRepository implements FeedRepos
 
         }
 
-        // if the file is not xml return false
-        if (!substr($xml, 0, 5) == "<?xml") return false;
-
-
         $xml = trim($xml);
+
+
+        // if the file is not xml return false
+        $xml_is_valid = @simplexml_load_string($xml);
+        if ( !$xml_is_valid ) {
+            
+            throw new \Exception('invalid xml');
+
+        }
+
+
+
 
         Storage::put(
             $this->rssDirectory.'feed_' . $feed->id . '.xml',
