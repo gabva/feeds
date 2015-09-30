@@ -53,7 +53,10 @@ class FeedController extends AdminBaseController
      */
     public function store(FeedRequest $request)
     {
-        $this->feed->create($request->all());
+       if (!$this->feed->create($request->all())) {
+           Flash::error(trans('feeds::feeds.messages.feed error'));
+           return redirect()->back()->withInput();
+       }
 
         Flash::success(trans('feeds::feeds.messages.feed created'));
 

@@ -1,5 +1,7 @@
 <?php namespace Modules\Feeds\Repositories\Eloquent;
 
+use Facebook\FacebookRequestException;
+use League\Flysystem\Exception;
 use Modules\Feeds\Repositories\FeedRepository;
 use Modules\Core\Repositories\Eloquent\EloquentBaseRepository;
 use Facebook\FacebookSession;
@@ -31,9 +33,20 @@ class EloquentFeedRepository extends EloquentBaseRepository implements FeedRepos
      */
     public function create($data)
     {
-       if (!$feed = $this->model->create($data)) return false;
 
-       $this->getRSS($feed);
+       if (!$feed = $this->model->create($data)) return false;
+        try {
+            $this->getRSS($feed);
+        }
+        catch (\Exception $e)   {
+
+            $this->destroy($feed);
+
+dd($e);
+            return false;
+
+        }
+       //$this->getRSS($feed);
 
        return $feed;
 
@@ -96,26 +109,20 @@ class EloquentFeedRepository extends EloquentBaseRepository implements FeedRepos
 
             $session = new FacebookSession($application['app_id'].'|'.$application['app_secret']);
 
-            try {
+
 
                 $request = new FacebookRequest(
                     $session,
                     'GET',
-                    '/' . $page .'/feed'
+                    '/' . $page . '/feed'
                 );
-
                 $response = $request->execute();
+
                 $graphObject = $response->getGraphObject();
 
                 $facebook_feed = $graphObject->asArray();
 
-            } catch (Exception $e) {
 
-
-                return false;
-
-
-            }
 
 
             $xml = '
@@ -222,7 +229,9 @@ class EloquentFeedRepository extends EloquentBaseRepository implements FeedRepos
 
         foreach ($feeds as $feed) {
 
-            $xml = $this->getRSS($feed);
+
+                $xml = $this->getRSS($feed);
+
 
             // Convert string to a SimpleXML object
             if ($xml) {

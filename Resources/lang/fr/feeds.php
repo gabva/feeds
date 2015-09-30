@@ -27,6 +27,9 @@ return [
         'feed not found' => 'Flux non trouvé',
         'feed updated' => 'Le flux a été mis à jour',
         'feed deleted' => 'Le flux a été supprimé',
+        'feed error' => "L'url du flux semble incorrecte.  Le flux doit être un flux RSS de site/blog valide, ou une page facebook publique (pas de profil, ni groupe) : si il s'agit d'une page et l'adresse est de type http://www.facebook.com/le-nom-123456, alors essayez simplement http/www.facebook.com/123456."
+
+
 
     ],
 
