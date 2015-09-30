@@ -41,8 +41,7 @@ class EloquentFeedRepository extends EloquentBaseRepository implements FeedRepos
         catch (\Exception $e)   {
 
             $this->destroy($feed);
-
-dd($e);
+ 
             return false;
 
         }
