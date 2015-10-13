@@ -138,7 +138,7 @@ class EloquentFeedRepository extends EloquentBaseRepository implements FeedRepos
                 $ids = explode('_', $entry->id);
 
 
-                if  (isset($entry->message))  { //si il y a un message
+                if  ($entry->from->id == $ids[0] && isset($entry->message))  { //si il y a un message et que la page est auteur
 
 
                     $title = Str::words($entry->message, 20, '...'); //limit mots
